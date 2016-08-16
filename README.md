@@ -5,7 +5,8 @@ This service provides the user with a consistent interface for various PaaS stor
 
 ## Installation
 
-TODO
+1. Copy the file config.js.sample to config.js
+1. Edit the file config.js according to your needs
 
 ## Running the server
 To run the server, run:
