@@ -5,10 +5,10 @@ config.encryption.pathPrivateKey = '/path/to/privkey.pem';
 config.encryption.pathPublicKeyCert = '/path/to/certificate.pem';
 config.encryption.pathIntermediateCert = '/path/to/intermediate.pem';
 
-config.strategies = {}:
-config.strategies.aws-s3 = {};
-config.strategies.aws-s3.accessKeyId = 'accesskey';
-config.strategies.aws-s3.secretAccessKey = 'secret';
-config.strategies.aws-s3.region = 'eu-central-1';
+config.strategies = {};
+config.strategies.awss3 = {};
+config.strategies.awss3.accessKeyId = 'accesskey';
+config.strategies.awss3.secretAccessKey = 'secret';
+config.strategies.awss3.region = 'eu-central-1';
 
 module.exports = config;
