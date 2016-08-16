@@ -5,20 +5,10 @@
 var config = require('./config.js');
 var app = require('connect')();
 var https = require('https');
-var mongoUtil = require('./mongoUtil.js');
 var swaggerTools = require('swagger-tools');
 var jsyaml = require('js-yaml');
 var fs = require('fs');
 var serverPort = 8443;
-
-// connect to MongoDB, where our session management data is stored
-var mongoConnectionString = "mongodb://" + config.mongodb.host + ":" + config.mongodb.port + "/" + config.mongodb.dbName;
-
-mongoUtil.connectToServer(mongoConnectionString, function (err) {
-  if (err) {
-    throw err;
-  }
-});
 
 // swaggerRouter configuration
 var options = {

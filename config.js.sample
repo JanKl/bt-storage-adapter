@@ -1,19 +1,17 @@
 var config = {};
 
-config.mongodb = {};
-config.mongodb.host = 'mongohost';
-config.mongodb.port = '27017';
-config.mongodb.dbName = 'storageAdapter';
-
 config.encryption = {};
 config.encryption.pathPrivateKey = '/path/to/privkey.pem';
 config.encryption.pathPublicKeyCert = '/path/to/certificate.pem';
 config.encryption.pathIntermediateCert = '/path/to/intermediate.pem';
 
-config.strategies = {};
-config.strategies.awss3 = {};
-config.strategies.awss3.accessKeyId = 'accesskey';
-config.strategies.awss3.secretAccessKey = 'secret';
-config.strategies.awss3.region = 'eu-central-1';
+config.storageStrategyToUse = 'Default';
+
+config.storageStrategySettings = {};
+config.storageStrategySettings.awss3 = {};
+config.storageStrategySettings.awss3.accessKeyId = 'accesskey';
+config.storageStrategySettings.awss3.secretAccessKey = 'secret';
+config.storageStrategySettings.awss3.region = 'eu-central-1';
+config.storageStrategySettings.awss3.bucket = 'my-bucket';
 
 module.exports = config;
