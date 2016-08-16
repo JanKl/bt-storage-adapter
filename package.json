@@ -4,8 +4,8 @@
   "description": "An adapter to various (cloud-based) object stores. One has to request a base folder under which they can store objects in virtual sub folders using an assigned folder secret. The sub folders cannot be created manually but will be created automatically as one puts files into it.",
   "main": "index.js",
   "scripts": {
-	"prestart": "npm install",
-	"start": "node index.js"
+    "prestart": "npm install",
+    "start": "node index.js"
   },  
   "keywords": [
     "swagger"
@@ -13,9 +13,10 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-	"aws-sdk": "^2.5.0",
+    "aws-sdk": "^2.5.0",
     "connect": "^3.2.0",
     "js-yaml": "^3.3.0",
+    "mongodb": "^2.2.6",
     "swagger-tools": "0.10.1"
   }
 }

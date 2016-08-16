@@ -1,5 +1,10 @@
 var config = {};
 
+config.mongodb = {};
+config.mongodb.host = 'mongohost';
+config.mongodb.port = '27017';
+config.mongodb.dbName = 'storageAdapter';
+
 config.encryption = {};
 config.encryption.pathPrivateKey = '/path/to/privkey.pem';
 config.encryption.pathPublicKeyCert = '/path/to/certificate.pem';
