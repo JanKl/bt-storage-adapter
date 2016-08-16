@@ -39,7 +39,7 @@ swaggerTools.initializeMiddleware(swaggerDoc, function (middleware) {
     cert: fs.readFileSync(config.encryption.pathPublicKeyCert),
     ca: fs.readFileSync(config.encryption.pathIntermediateCert)
   }, app).listen(serverPort, function () {
-    console.log('Your server is listening on port %d (http://localhost:%d)', serverPort, serverPort);
-    console.log('Swagger-ui is available on http://localhost:%d/docs', serverPort);
+    console.log('Your server is listening on port %d (https://localhost:%d)', serverPort, serverPort);
+    console.log('Swagger-ui is available on https://localhost:%d/docs', serverPort);
   });
 });
