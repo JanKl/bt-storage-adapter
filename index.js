@@ -1,5 +1,6 @@
 'use strict';
 
+var config = require('./config.js');
 var app = require('connect')();
 var http = require('http');
 var swaggerTools = require('swagger-tools');
