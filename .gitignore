@@ -38,3 +38,6 @@ jspm_packages
 
 # Config files
 config.js
+
+# Netbeans project folder
+/nbproject
