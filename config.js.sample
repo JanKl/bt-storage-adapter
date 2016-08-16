@@ -1,3 +1,8 @@
 var config = {};
 
+config.encryption = {};
+config.encryption.pathPrivateKey = '/path/to/privkey.pem';
+config.encryption.pathPublicKeyCert = '/path/to/certificate.pem';
+config.encryption.pathIntermediateCert = '/path/to/intermediate.pem';
+
 module.exports = config;

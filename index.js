@@ -2,7 +2,7 @@
 
 var config = require('./config.js');
 var app = require('connect')();
-var http = require('http');
+var https = require('https');
 var swaggerTools = require('swagger-tools');
 var jsyaml = require('js-yaml');
 var fs = require('fs');
@@ -34,7 +34,11 @@ swaggerTools.initializeMiddleware(swaggerDoc, function (middleware) {
   app.use(middleware.swaggerUi());
 
   // Start the server
-  http.createServer(app).listen(serverPort, function () {
+  https.createServer({
+    key: fs.readFileSync(config.encryption.pathPrivateKey),
+    cert: fs.readFileSync(config.encryption.pathPublicKeyCert),
+    ca: fs.readFileSync(config.encryption.pathIntermediateCert)
+  }, app).listen(serverPort, function () {
     console.log('Your server is listening on port %d (http://localhost:%d)', serverPort, serverPort);
     console.log('Swagger-ui is available on http://localhost:%d/docs', serverPort);
   });
