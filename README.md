@@ -17,5 +17,5 @@ npm start
 To view the Swagger UI interface:
 
 ```
-open https://{serverAddress}:8080/docs
+open https://{serverAddress}:8443/docs
 ```
