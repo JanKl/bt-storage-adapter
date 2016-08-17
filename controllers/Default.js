@@ -7,6 +7,14 @@ var config = require('../config');
 // TODO: Implement document store here
 var tempDocumentStore = {};
 
+tempDocumentStore["56000846-518d-4925-b62a-119c55189223"] = {
+    baseFolderName: "56000846-518d-4925-b62a-119c55189223",
+    baseFolderSecret: "693fd7277434ca21d2081f847b0305880eafb3e220762568095c71a086fe5f17",
+    baseFolderRemarks: "",
+    baseFolderCreated: new Date(),
+    baseFolderLastAccess: new Date()
+  };  // XXX: For testing
+
 // choose implementation for selected storage strategy
 var SelectedStorageStrategy = require('./' + config.storageStrategyToUse + 'StorageStrategy');
 var selectedStorageStrategyConfig = config['storageStrategySettings'][config.storageStrategyToUse];
@@ -35,7 +43,7 @@ module.exports.baseFolderNameSubFolderNameDELETE = function baseFolderNameSubFol
   // Ensure sub folder name variable is set
   var subFolderName = '';
 
-  if (req.swagger.params.subFolderName.value) {
+  if (req.swagger.params.subFolderName && req.swagger.params.subFolderName.value) {
     // Remove ../s to prevent directory traversal
     var subFolderName = String(req.swagger.params.subFolderName.value).replace('../', '');
   }
@@ -80,7 +88,7 @@ module.exports.baseFolderNameSubFolderNameFileNameDELETE = function baseFolderNa
   // Ensure sub folder name variable is set
   var subFolderName = '';
 
-  if (req.swagger.params.subFolderName.value) {
+  if (req.swagger.params.subFolderName && req.swagger.params.subFolderName.value) {
     // Remove ../s to prevent directory traversal
     var subFolderName = String(req.swagger.params.subFolderName.value).replace('../', '');
   }
@@ -89,7 +97,7 @@ module.exports.baseFolderNameSubFolderNameFileNameDELETE = function baseFolderNa
   var folderPath = String(baseFolderName + '/' + subFolderName).replace(/\/+$/, "");
 
   // Ensure file name is set
-  if (!req.swagger.params.fileName.value) {
+  if (!req.swagger.params.fileName || !req.swagger.params.fileName.value) {
     res.statusCode = 400;
     res.end('File name may not be empty.');
     return;
@@ -138,7 +146,7 @@ module.exports.baseFolderNameDELETE = function baseFolderNameDELETE(req, res, ne
     res.statusCode = 204;
     res.end('Base folder deleted');
   }, function error(err) {
-    if (err.message === 'File not found') {
+    if (err.message === 'FileNotFound') {
       res.statusCode = 404;
       res.end('Base folder not found.');
       return;
@@ -175,7 +183,7 @@ module.exports.baseFolderNameSubFolderNameFileNameGET = function baseFolderNameS
   // Ensure sub folder name variable is set
   var subFolderName = '';
 
-  if (req.swagger.params.subFolderName.value) {
+  if (req.swagger.params.subFolderName && req.swagger.params.subFolderName.value) {
     // Remove ../s to prevent directory traversal
     var subFolderName = String(req.swagger.params.subFolderName.value).replace('../', '');
   }
@@ -184,7 +192,7 @@ module.exports.baseFolderNameSubFolderNameFileNameGET = function baseFolderNameS
   var folderPath = String(baseFolderName + '/' + subFolderName).replace(/\/+$/, "");
 
   // Ensure file name is set
-  if (!req.swagger.params.fileName.value) {
+  if (!req.swagger.params.fileName || !req.swagger.params.fileName.value) {
     res.statusCode = 400;
     res.end('File name may not be empty.');
     return;
@@ -229,7 +237,7 @@ module.exports.baseFolderNameSubFolderNameFileNamePUT = function baseFolderNameS
   // Ensure sub folder name variable is set
   var subFolderName = '';
 
-  if (req.swagger.params.subFolderName.value) {
+  if (req.swagger.params.subFolderName && req.swagger.params.subFolderName.value) {
     // Remove ../s to prevent directory traversal
     var subFolderName = String(req.swagger.params.subFolderName.value).replace('../', '');
   }
@@ -238,7 +246,7 @@ module.exports.baseFolderNameSubFolderNameFileNamePUT = function baseFolderNameS
   var folderPath = String(baseFolderName + '/' + subFolderName).replace(/\/+$/, "");
 
   // Ensure file name is set
-  if (!req.swagger.params.fileName.value) {
+  if (!req.swagger.params.fileName || !req.swagger.params.fileName.value) {
     res.statusCode = 400;
     res.end('File name may not be empty.');
     return;
@@ -246,7 +254,7 @@ module.exports.baseFolderNameSubFolderNameFileNamePUT = function baseFolderNameS
 
   var fileName = req.swagger.params.fileName.value;
 
-  if (!req.swagger.params.fileData.value) {
+  if (!req.swagger.params.fileData || !req.swagger.params.fileData.value) {
     res.statusCode = 400;
     res.end('No file content present.');
     return;
@@ -283,7 +291,7 @@ module.exports.baseFolderNameSubFolderNameGET = function baseFolderNameSubFolder
   // Ensure sub folder name variable is set
   var subFolderName = '';
 
-  if (req.swagger.params.subFolderName.value) {
+  if (req.swagger.params.subFolderName && req.swagger.params.subFolderName.value) {
     // Remove ../s to prevent directory traversal
     var subFolderName = String(req.swagger.params.subFolderName.value).replace('../', '');
   }
