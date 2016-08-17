@@ -194,10 +194,9 @@ module.exports.baseFolderNameSubFolderNameFileNameGET = function baseFolderNameS
 
   SelectedStorageStrategy.getFileFromFolder(folderPath, fileName).then(function success(fileDataStream) {
     res.statusCode = 200;
-    fileDataStream.pipe(res);
-    res.end();
+    res.end(fileDataStream);
   }, function error(err) {
-    if (err.message === 'File not found') {
+    if (err.message === 'FileNotFound') {
       res.statusCode = 404;
       res.end('File not found.');
       return;
