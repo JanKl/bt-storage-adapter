@@ -9,40 +9,21 @@ var tempDocumentStore = {};
 
 // choose implementation for selected storage strategy
 var SelectedStorageStrategy = require('./' + config.storageStrategyToUse + 'StorageStrategy');
-
-module.exports.baseFolderNameDELETE = function baseFolderNameDELETE(req, res, next) {
-  SelectedStorageStrategy.baseFolderNameDELETE(req.swagger.params, res, next);
-};
-
-module.exports.baseFolderNameGET = function baseFolderNameGET(req, res, next) {
-  SelectedStorageStrategy.baseFolderNameGET(req.swagger.params, res, next);
-};
+var selectedStorageStrategyConfig = config['storageStrategySettings'][config.storageStrategyToUse];
 
 module.exports.baseFolderNameSubFolderNameDELETE = function baseFolderNameSubFolderNameDELETE(req, res, next) {
-  SelectedStorageStrategy.baseFolderNameSubFolderNameDELETE(req.swagger.params, res, next);
-};
-
-module.exports.baseFolderNameSubFolderNameFileNameDELETE = function baseFolderNameSubFolderNameFileNameDELETE(req, res, next) {
-  SelectedStorageStrategy.baseFolderNameSubFolderNameFileNameDELETE(req.swagger.params, res, next);
-};
-
-module.exports.baseFolderNameSubFolderNameFileNameGET = function baseFolderNameSubFolderNameFileNameGET(req, res, next) {
-  SelectedStorageStrategy.baseFolderNameSubFolderNameFileNameGET(req.swagger.params, res, next);
-};
-
-module.exports.baseFolderNameSubFolderNameFileNamePUT = function baseFolderNameSubFolderNameFileNamePUT(req, res, next) {
   // Ensure base folder exists
-  if (!req.swagger.params.baseFolderName.path.value || !tempDocumentStore[req.swagger.params.baseFolderName.path.value]) {
+  if (!req.swagger.params.baseFolderName.value || !tempDocumentStore[req.swagger.params.baseFolderName.value]) {
     res.statusCode = 404;
     res.end('Base folder doesn\'t exist.');
     return;
   }
-
-  var baseFolderName = req.swagger.params.path.value.baseFolderName;
+  
+  var baseFolderName = req.swagger.params.baseFolderName.value;
   var baseFolderObjectFromDb = tempDocumentStore[baseFolderName];
 
   // Ensure folder secret is valid
-  if (!req.swagger.params.folderSecret.path.value || baseFolderObjectFromDb['baseFolderSecret'] !== req.swagger.params.folderSecret.path.value) {
+  if (!req.swagger.params.folderSecret.value || baseFolderObjectFromDb['baseFolderSecret'] !== req.swagger.params.folderSecret.value) {
     res.statusCode = 403;
     res.end('Folder secret not valid.');
     return;
@@ -51,31 +32,271 @@ module.exports.baseFolderNameSubFolderNameFileNamePUT = function baseFolderNameS
   // Ensure sub folder name variable is set
   var subFolderName = '';
 
-  if (req.swagger.params.subFolderName.path.value) {
+  if (req.swagger.params.subFolderName.value) {
     // Remove ../s to prevent directory traversal
-    var subFolderName = String(req.swagger.params.subFolderName.path.value).replace('../', '');
+    var subFolderName = String(req.swagger.params.subFolderName.value).replace('../', '');
+  }
+  
+  // concatenate folder name in storage without trailing slashes
+  var folderPath = String(baseFolderName + '/' + subFolderName).replace(/\/+$/, "");
+
+  SelectedStorageStrategy.deleteFileOrFolder(selectedStorageStrategyConfig, folderPath).then(function success() {
+    res.statusCode = 204;
+    res.end('Folder deleted');
+  }, function error(err) {
+    if (err.message === 'File not found') {
+      res.statusCode = 404;
+      res.end('Folder not found.');
+      return;
+    }
+    
+    res.statusCode = 500;
+    res.end('Folder couldn\'t be deleted.');
+    console.error(err);
+  });
+};
+
+module.exports.baseFolderNameSubFolderNameFileNameDELETE = function baseFolderNameSubFolderNameFileNameDELETE(req, res, next) {
+  // Ensure base folder exists
+  if (!req.swagger.params.baseFolderName.value || !tempDocumentStore[req.swagger.params.baseFolderName.value]) {
+    res.statusCode = 404;
+    res.end('Base folder doesn\'t exist.');
+    return;
+  }
+  
+  var baseFolderName = req.swagger.params.baseFolderName.value;
+  var baseFolderObjectFromDb = tempDocumentStore[baseFolderName];
+
+  // Ensure folder secret is valid
+  if (!req.swagger.params.folderSecret.value || baseFolderObjectFromDb['baseFolderSecret'] !== req.swagger.params.folderSecret.value) {
+    res.statusCode = 403;
+    res.end('Folder secret not valid.');
+    return;
   }
 
+  // Ensure sub folder name variable is set
+  var subFolderName = '';
+
+  if (req.swagger.params.subFolderName.value) {
+    // Remove ../s to prevent directory traversal
+    var subFolderName = String(req.swagger.params.subFolderName.value).replace('../', '');
+  }
+  
+  // concatenate folder name in storage without trailing slashes
+  var folderPath = String(baseFolderName + '/' + subFolderName).replace(/\/+$/, "");
+
   // Ensure file name is set
-  if (!req.swagger.params.fileName.path.value) {
+  if (!req.swagger.params.fileName.value) {
     res.statusCode = 400;
     res.end('File name may not be empty.');
     return;
   }
 
-  var fileName = req.swagger.params.fileName.path.value;
+  var fileName = req.swagger.params.fileName.value;
+  var objectPath = folderPath + '/' + fileName;
 
-  if (!req.swagger.params.fileData.body.value) {
+  SelectedStorageStrategy.deleteFileOrFolder(selectedStorageStrategyConfig, objectPath).then(function success() {
+    res.statusCode = 204;
+    res.end('File deleted');
+  }, function error(err) {
+    if (err.message === 'File not found') {
+      res.statusCode = 404;
+      res.end('File not found.');
+      return;
+    }
+    
+    res.statusCode = 500;
+    res.end('File couldn\'t be deleted.');
+    console.error(err);
+  });
+};
+
+module.exports.baseFolderNameDELETE = function baseFolderNameDELETE(req, res, next) {
+  // Ensure base folder exists
+  if (!req.swagger.params.baseFolderName.value || !tempDocumentStore[req.swagger.params.baseFolderName.value]) {
+    res.statusCode = 404;
+    res.end('Base folder doesn\'t exist.');
+    return;
+  }
+  
+  var baseFolderName = req.swagger.params.baseFolderName.value;
+  var baseFolderObjectFromDb = tempDocumentStore[baseFolderName];
+
+  // Ensure folder secret is valid
+  if (!req.swagger.params.folderSecret.value || baseFolderObjectFromDb['baseFolderSecret'] !== req.swagger.params.folderSecret.value) {
+    res.statusCode = 403;
+    res.end('Folder secret not valid.');
+    return;
+  }
+
+  SelectedStorageStrategy.deleteFileOrFolder(selectedStorageStrategyConfig, baseFolderName).then(function success() {
+    delete tempDocumentStore[baseFolderName];
+    
+    res.statusCode = 204;
+    res.end('Base folder deleted');
+  }, function error(err) {
+    if (err.message === 'File not found') {
+      res.statusCode = 404;
+      res.end('Base folder not found.');
+      return;
+    }
+    
+    res.statusCode = 500;
+    res.end('Base folder couldn\'t be deleted.');
+    console.error(err);
+  });
+};
+
+module.exports.baseFolderNameGET = function baseFolderNameGET(req, res, next) {
+  return module.exports.baseFolderNameSubFolderNameGET(req, res, next);
+};
+
+module.exports.baseFolderNameSubFolderNameFileNameGET = function baseFolderNameSubFolderNameFileNameGET(req, res, next) {
+  // Ensure base folder exists
+  if (!req.swagger.params.baseFolderName.value || !tempDocumentStore[req.swagger.params.baseFolderName.value]) {
+    res.statusCode = 404;
+    res.end('Base folder doesn\'t exist.');
+    return;
+  }
+  
+  var baseFolderName = req.swagger.params.baseFolderName.value;
+  var baseFolderObjectFromDb = tempDocumentStore[baseFolderName];
+
+  // Ensure folder secret is valid
+  if (!req.swagger.params.folderSecret.value || baseFolderObjectFromDb['baseFolderSecret'] !== req.swagger.params.folderSecret.value) {
+    res.statusCode = 403;
+    res.end('Folder secret not valid.');
+    return;
+  }
+
+  // Ensure sub folder name variable is set
+  var subFolderName = '';
+
+  if (req.swagger.params.subFolderName.value) {
+    // Remove ../s to prevent directory traversal
+    var subFolderName = String(req.swagger.params.subFolderName.value).replace('../', '');
+  }
+  
+  // concatenate folder name in storage without trailing slashes
+  var folderPath = String(baseFolderName + '/' + subFolderName).replace(/\/+$/, "");
+
+  // Ensure file name is set
+  if (!req.swagger.params.fileName.value) {
+    res.statusCode = 400;
+    res.end('File name may not be empty.');
+    return;
+  }
+
+  var fileName = req.swagger.params.fileName.value;
+
+  SelectedStorageStrategy.getFileFromFolder(selectedStorageStrategyConfig, folderPath, fileName).then(function success(fileDataStream) {
+    res.statusCode = 200;
+    fileDataStream.pipe(res);
+    res.end();
+  }, function error(err) {
+    if (err.message === 'File not found') {
+      res.statusCode = 404;
+      res.end('File not found.');
+      return;
+    }
+    
+    res.statusCode = 500;
+    res.end('File couldn\'t be retrieved.');
+    console.error(err);
+  });
+};
+
+module.exports.baseFolderNameSubFolderNameFileNamePUT = function baseFolderNameSubFolderNameFileNamePUT(req, res, next) {
+  // Ensure base folder exists
+  if (!req.swagger.params.baseFolderName.value || !tempDocumentStore[req.swagger.params.baseFolderName.value]) {
+    res.statusCode = 404;
+    res.end('Base folder doesn\'t exist.');
+    return;
+  }
+  
+  var baseFolderName = req.swagger.params.baseFolderName.value;
+  var baseFolderObjectFromDb = tempDocumentStore[baseFolderName];
+
+  // Ensure folder secret is valid
+  if (!req.swagger.params.folderSecret.value || baseFolderObjectFromDb['baseFolderSecret'] !== req.swagger.params.folderSecret.value) {
+    res.statusCode = 403;
+    res.end('Folder secret not valid.');
+    return;
+  }
+
+  // Ensure sub folder name variable is set
+  var subFolderName = '';
+
+  if (req.swagger.params.subFolderName.value) {
+    // Remove ../s to prevent directory traversal
+    var subFolderName = String(req.swagger.params.subFolderName.value).replace('../', '');
+  }
+  
+  // concatenate folder name in storage without trailing slashes
+  var folderPath = String(baseFolderName + '/' + subFolderName).replace(/\/+$/, "");
+
+  // Ensure file name is set
+  if (!req.swagger.params.fileName.value) {
+    res.statusCode = 400;
+    res.end('File name may not be empty.');
+    return;
+  }
+
+  var fileName = req.swagger.params.fileName.value;
+  
+  if (!req.swagger.params.fileData.value) {
     res.statusCode = 400;
     res.end('No file content present.');
     return;
   }
 
-  //SelectedStorageStrategy.baseFolderNameSubFolderNameFileNamePUT(req.swagger.params, res, next);
+  SelectedStorageStrategy.putFileIntoFolder(selectedStorageStrategyConfig, folderPath, fileName, req.swagger.params.fileData.value).then(function success() {
+    res.statusCode = 200;
+    res.end('File stored.');
+  }, function error(err) {
+    res.statusCode = 500;
+    res.end('File couldn\'t be stored.');
+    console.error(err);
+  });
 };
 
 module.exports.baseFolderNameSubFolderNameGET = function baseFolderNameSubFolderNameGET(req, res, next) {
-  SelectedStorageStrategy.baseFolderNameSubFolderNameGET(req.swagger.params, res, next);
+// Ensure base folder exists
+  if (!req.swagger.params.baseFolderName.value || !tempDocumentStore[req.swagger.params.baseFolderName.value]) {
+    res.statusCode = 404;
+    res.end('Base folder doesn\'t exist.');
+    return;
+  }
+  
+  var baseFolderName = req.swagger.params.baseFolderName.value;
+  var baseFolderObjectFromDb = tempDocumentStore[baseFolderName];
+
+  // Ensure folder secret is valid
+  if (!req.swagger.params.folderSecret.value || baseFolderObjectFromDb['baseFolderSecret'] !== req.swagger.params.folderSecret.value) {
+    res.statusCode = 403;
+    res.end('Folder secret not valid.');
+    return;
+  }
+
+  // Ensure sub folder name variable is set
+  var subFolderName = '';
+
+  if (req.swagger.params.subFolderName.value) {
+    // Remove ../s to prevent directory traversal
+    var subFolderName = String(req.swagger.params.subFolderName.value).replace('../', '');
+  }
+  
+  // concatenate folder name in storage without trailing slashes
+  var folderName = String(baseFolderName + '/' + subFolderName).replace(/\/+$/, "");
+  
+  SelectedStorageStrategy.getElementsInFolder(selectedStorageStrategyConfig, folderName).then(function success(elementsInFolderArray) {
+    res.statusCode = 200;
+    res.end(JSON.stringify(elementsInFolderArray));
+  }, function error(err) {
+    res.statusCode = 500;
+    res.end('Couldn\'t retrieve elements in folder.');
+    console.error(err);
+  });
 };
 
 module.exports.baseFoldersGET = function baseFoldersGET(req, res, next) {

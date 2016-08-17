@@ -233,7 +233,7 @@ paths:
         403:
           description: "folder secret not valid"
         404:
-          description: "base folder not found"
+          description: "folder or file not found"
       x-swagger-router-controller: "Default"
     put:
       description: "Updates the specified file"
