@@ -5,6 +5,9 @@ config.encryption.pathPrivateKey = '/path/to/privkey.pem';
 config.encryption.pathPublicKeyCert = '/path/to/certificate.pem';
 config.encryption.pathIntermediateCert = '/path/to/intermediate.pem';
 
+// Choose one of
+// - Default (only implementation stubs)
+// - AWSS3 (storage in an AWS S3 bucket)
 config.storageStrategyToUse = 'Default';
 
 config.storageStrategySettings = {};
@@ -12,7 +15,7 @@ config.storageStrategySettings.Default = {};
 config.storageStrategySettings.AWSS3 = {};
 config.storageStrategySettings.AWSS3.accessKeyId = 'accesskey';
 config.storageStrategySettings.AWSS3.secretAccessKey = 'secret';
-config.storageStrategySettings.AWSS3.region = 'eu-central-1';
-config.storageStrategySettings.AWSS3.bucket = 'my-bucket';
+config.storageStrategySettings.AWSS3.region = 'region-identifier';
+config.storageStrategySettings.AWSS3.bucket = 'globally-unique-bucket-name';  // Will be created automatically if it doesn't exist.
 
 module.exports = config;
