@@ -6,7 +6,7 @@ var stream = require('stream');
  * Allows for initialization of the selected storage strategy
  * @returns {undefined} No return value
  */
-exports.initialize = function() {
+exports.initialize = function(strategyConfig) {
   // Implemetation goes here
 };
 

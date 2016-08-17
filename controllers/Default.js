@@ -12,7 +12,7 @@ var SelectedStorageStrategy = require('./' + config.storageStrategyToUse + 'Stor
 var selectedStorageStrategyConfig = config['storageStrategySettings'][config.storageStrategyToUse];
 
 // Initialize Storage
-SelectedStorageStrategy.initialize();
+SelectedStorageStrategy.initialize(selectedStorageStrategyConfig);
 
 module.exports.baseFolderNameSubFolderNameDELETE = function baseFolderNameSubFolderNameDELETE(req, res, next) {
   // Ensure base folder exists
