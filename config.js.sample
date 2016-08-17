@@ -8,10 +8,11 @@ config.encryption.pathIntermediateCert = '/path/to/intermediate.pem';
 config.storageStrategyToUse = 'Default';
 
 config.storageStrategySettings = {};
-config.storageStrategySettings.awss3 = {};
-config.storageStrategySettings.awss3.accessKeyId = 'accesskey';
-config.storageStrategySettings.awss3.secretAccessKey = 'secret';
-config.storageStrategySettings.awss3.region = 'eu-central-1';
-config.storageStrategySettings.awss3.bucket = 'my-bucket';
+config.storageStrategySettings.Default = {};
+config.storageStrategySettings.AWSS3 = {};
+config.storageStrategySettings.AWSS3.accessKeyId = 'accesskey';
+config.storageStrategySettings.AWSS3.secretAccessKey = 'secret';
+config.storageStrategySettings.AWSS3.region = 'eu-central-1';
+config.storageStrategySettings.AWSS3.bucket = 'my-bucket';
 
 module.exports = config;
