@@ -11,6 +11,9 @@ var tempDocumentStore = {};
 var SelectedStorageStrategy = require('./' + config.storageStrategyToUse + 'StorageStrategy');
 var selectedStorageStrategyConfig = config['storageStrategySettings'][config.storageStrategyToUse];
 
+// Initialize Storage
+SelectedStorageStrategy.initialize();
+
 module.exports.baseFolderNameSubFolderNameDELETE = function baseFolderNameSubFolderNameDELETE(req, res, next) {
   // Ensure base folder exists
   if (!req.swagger.params.baseFolderName.value || !tempDocumentStore[req.swagger.params.baseFolderName.value]) {

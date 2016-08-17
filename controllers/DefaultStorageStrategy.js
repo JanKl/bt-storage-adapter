@@ -3,6 +3,14 @@
 var stream = require('stream');
 
 /**
+ * Allows for initialization of the selected storage strategy
+ * @returns {undefined} No return value
+ */
+exports.initialize = function() {
+  // Implemetation goes here
+};
+
+/**
  * Returns an array with informations on all elements in the folder with the
  * given folderName.
  * @param {Object} strategyConfig Specific configuration settings for this
