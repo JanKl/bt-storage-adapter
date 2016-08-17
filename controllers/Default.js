@@ -47,7 +47,7 @@ module.exports.baseFolderNameSubFolderNameDELETE = function baseFolderNameSubFol
     res.statusCode = 204;
     res.end('Folder deleted');
   }, function error(err) {
-    if (err.message === 'File not found') {
+    if (err.message === 'FileNotFound') {
       res.statusCode = 404;
       res.end('Folder not found.');
       return;
@@ -102,7 +102,7 @@ module.exports.baseFolderNameSubFolderNameFileNameDELETE = function baseFolderNa
     res.statusCode = 204;
     res.end('File deleted');
   }, function error(err) {
-    if (err.message === 'File not found') {
+    if (err.message === 'FileNotFound') {
       res.statusCode = 404;
       res.end('File not found.');
       return;
