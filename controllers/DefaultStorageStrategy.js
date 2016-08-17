@@ -6,7 +6,7 @@ var stream = require('stream');
  * Allows for initialization of the selected storage strategy
  * @returns {undefined} No return value
  */
-exports.initialize = function(strategyConfig) {
+exports.initialize = function (strategyConfig) {
   // Implemetation goes here
 };
 
@@ -24,7 +24,7 @@ exports.initialize = function(strategyConfig) {
 exports.getElementsInFolder = function (strategyConfig, folderName) {
   return new Promise(function (resolve, reject) {
     // Implementation goes here
-    
+
     reject(new Error('Dummy method stub'));
   });
 };

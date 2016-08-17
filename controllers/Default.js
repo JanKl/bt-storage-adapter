@@ -21,7 +21,7 @@ module.exports.baseFolderNameSubFolderNameDELETE = function baseFolderNameSubFol
     res.end('Base folder doesn\'t exist.');
     return;
   }
-  
+
   var baseFolderName = req.swagger.params.baseFolderName.value;
   var baseFolderObjectFromDb = tempDocumentStore[baseFolderName];
 
@@ -39,7 +39,7 @@ module.exports.baseFolderNameSubFolderNameDELETE = function baseFolderNameSubFol
     // Remove ../s to prevent directory traversal
     var subFolderName = String(req.swagger.params.subFolderName.value).replace('../', '');
   }
-  
+
   // concatenate folder name in storage without trailing slashes
   var folderPath = String(baseFolderName + '/' + subFolderName).replace(/\/+$/, "");
 
@@ -52,7 +52,7 @@ module.exports.baseFolderNameSubFolderNameDELETE = function baseFolderNameSubFol
       res.end('Folder not found.');
       return;
     }
-    
+
     res.statusCode = 500;
     res.end('Folder couldn\'t be deleted.');
     console.error(err);
@@ -66,7 +66,7 @@ module.exports.baseFolderNameSubFolderNameFileNameDELETE = function baseFolderNa
     res.end('Base folder doesn\'t exist.');
     return;
   }
-  
+
   var baseFolderName = req.swagger.params.baseFolderName.value;
   var baseFolderObjectFromDb = tempDocumentStore[baseFolderName];
 
@@ -84,7 +84,7 @@ module.exports.baseFolderNameSubFolderNameFileNameDELETE = function baseFolderNa
     // Remove ../s to prevent directory traversal
     var subFolderName = String(req.swagger.params.subFolderName.value).replace('../', '');
   }
-  
+
   // concatenate folder name in storage without trailing slashes
   var folderPath = String(baseFolderName + '/' + subFolderName).replace(/\/+$/, "");
 
@@ -107,7 +107,7 @@ module.exports.baseFolderNameSubFolderNameFileNameDELETE = function baseFolderNa
       res.end('File not found.');
       return;
     }
-    
+
     res.statusCode = 500;
     res.end('File couldn\'t be deleted.');
     console.error(err);
@@ -121,7 +121,7 @@ module.exports.baseFolderNameDELETE = function baseFolderNameDELETE(req, res, ne
     res.end('Base folder doesn\'t exist.');
     return;
   }
-  
+
   var baseFolderName = req.swagger.params.baseFolderName.value;
   var baseFolderObjectFromDb = tempDocumentStore[baseFolderName];
 
@@ -134,7 +134,7 @@ module.exports.baseFolderNameDELETE = function baseFolderNameDELETE(req, res, ne
 
   SelectedStorageStrategy.deleteFileOrFolder(selectedStorageStrategyConfig, baseFolderName).then(function success() {
     delete tempDocumentStore[baseFolderName];
-    
+
     res.statusCode = 204;
     res.end('Base folder deleted');
   }, function error(err) {
@@ -143,7 +143,7 @@ module.exports.baseFolderNameDELETE = function baseFolderNameDELETE(req, res, ne
       res.end('Base folder not found.');
       return;
     }
-    
+
     res.statusCode = 500;
     res.end('Base folder couldn\'t be deleted.');
     console.error(err);
@@ -161,7 +161,7 @@ module.exports.baseFolderNameSubFolderNameFileNameGET = function baseFolderNameS
     res.end('Base folder doesn\'t exist.');
     return;
   }
-  
+
   var baseFolderName = req.swagger.params.baseFolderName.value;
   var baseFolderObjectFromDb = tempDocumentStore[baseFolderName];
 
@@ -179,7 +179,7 @@ module.exports.baseFolderNameSubFolderNameFileNameGET = function baseFolderNameS
     // Remove ../s to prevent directory traversal
     var subFolderName = String(req.swagger.params.subFolderName.value).replace('../', '');
   }
-  
+
   // concatenate folder name in storage without trailing slashes
   var folderPath = String(baseFolderName + '/' + subFolderName).replace(/\/+$/, "");
 
@@ -202,7 +202,7 @@ module.exports.baseFolderNameSubFolderNameFileNameGET = function baseFolderNameS
       res.end('File not found.');
       return;
     }
-    
+
     res.statusCode = 500;
     res.end('File couldn\'t be retrieved.');
     console.error(err);
@@ -216,7 +216,7 @@ module.exports.baseFolderNameSubFolderNameFileNamePUT = function baseFolderNameS
     res.end('Base folder doesn\'t exist.');
     return;
   }
-  
+
   var baseFolderName = req.swagger.params.baseFolderName.value;
   var baseFolderObjectFromDb = tempDocumentStore[baseFolderName];
 
@@ -234,7 +234,7 @@ module.exports.baseFolderNameSubFolderNameFileNamePUT = function baseFolderNameS
     // Remove ../s to prevent directory traversal
     var subFolderName = String(req.swagger.params.subFolderName.value).replace('../', '');
   }
-  
+
   // concatenate folder name in storage without trailing slashes
   var folderPath = String(baseFolderName + '/' + subFolderName).replace(/\/+$/, "");
 
@@ -246,7 +246,7 @@ module.exports.baseFolderNameSubFolderNameFileNamePUT = function baseFolderNameS
   }
 
   var fileName = req.swagger.params.fileName.value;
-  
+
   if (!req.swagger.params.fileData.value) {
     res.statusCode = 400;
     res.end('No file content present.');
@@ -270,7 +270,7 @@ module.exports.baseFolderNameSubFolderNameGET = function baseFolderNameSubFolder
     res.end('Base folder doesn\'t exist.');
     return;
   }
-  
+
   var baseFolderName = req.swagger.params.baseFolderName.value;
   var baseFolderObjectFromDb = tempDocumentStore[baseFolderName];
 
@@ -288,10 +288,10 @@ module.exports.baseFolderNameSubFolderNameGET = function baseFolderNameSubFolder
     // Remove ../s to prevent directory traversal
     var subFolderName = String(req.swagger.params.subFolderName.value).replace('../', '');
   }
-  
+
   // concatenate folder name in storage without trailing slashes
   var folderName = String(baseFolderName + '/' + subFolderName).replace(/\/+$/, "");
-  
+
   SelectedStorageStrategy.getElementsInFolder(selectedStorageStrategyConfig, folderName).then(function success(elementsInFolderArray) {
     res.statusCode = 200;
     res.end(JSON.stringify(elementsInFolderArray));
