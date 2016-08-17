@@ -43,7 +43,7 @@ module.exports.baseFolderNameSubFolderNameDELETE = function baseFolderNameSubFol
   // concatenate folder name in storage without trailing slashes
   var folderPath = String(baseFolderName + '/' + subFolderName).replace(/\/+$/, "");
 
-  SelectedStorageStrategy.deleteFileOrFolder(selectedStorageStrategyConfig, folderPath).then(function success() {
+  SelectedStorageStrategy.deleteFileOrFolder(folderPath).then(function success() {
     res.statusCode = 204;
     res.end('Folder deleted');
   }, function error(err) {
@@ -98,7 +98,7 @@ module.exports.baseFolderNameSubFolderNameFileNameDELETE = function baseFolderNa
   var fileName = req.swagger.params.fileName.value;
   var objectPath = folderPath + '/' + fileName;
 
-  SelectedStorageStrategy.deleteFileOrFolder(selectedStorageStrategyConfig, objectPath).then(function success() {
+  SelectedStorageStrategy.deleteFileOrFolder(objectPath).then(function success() {
     res.statusCode = 204;
     res.end('File deleted');
   }, function error(err) {
@@ -132,7 +132,7 @@ module.exports.baseFolderNameDELETE = function baseFolderNameDELETE(req, res, ne
     return;
   }
 
-  SelectedStorageStrategy.deleteFileOrFolder(selectedStorageStrategyConfig, baseFolderName).then(function success() {
+  SelectedStorageStrategy.deleteFileOrFolder(baseFolderName).then(function success() {
     delete tempDocumentStore[baseFolderName];
 
     res.statusCode = 204;
@@ -192,7 +192,7 @@ module.exports.baseFolderNameSubFolderNameFileNameGET = function baseFolderNameS
 
   var fileName = req.swagger.params.fileName.value;
 
-  SelectedStorageStrategy.getFileFromFolder(selectedStorageStrategyConfig, folderPath, fileName).then(function success(fileDataStream) {
+  SelectedStorageStrategy.getFileFromFolder(folderPath, fileName).then(function success(fileDataStream) {
     res.statusCode = 200;
     fileDataStream.pipe(res);
     res.end();
@@ -253,7 +253,7 @@ module.exports.baseFolderNameSubFolderNameFileNamePUT = function baseFolderNameS
     return;
   }
 
-  SelectedStorageStrategy.putFileIntoFolder(selectedStorageStrategyConfig, folderPath, fileName, req.swagger.params.fileData.value).then(function success() {
+  SelectedStorageStrategy.putFileIntoFolder(folderPath, fileName, req.swagger.params.fileData.value).then(function success() {
     res.statusCode = 200;
     res.end('File stored.');
   }, function error(err) {
@@ -292,7 +292,7 @@ module.exports.baseFolderNameSubFolderNameGET = function baseFolderNameSubFolder
   // concatenate folder name in storage without trailing slashes
   var folderName = String(baseFolderName + '/' + subFolderName).replace(/\/+$/, "");
 
-  SelectedStorageStrategy.getElementsInFolder(selectedStorageStrategyConfig, folderName).then(function success(elementsInFolderArray) {
+  SelectedStorageStrategy.getElementsInFolder(folderName).then(function success(elementsInFolderArray) {
     res.statusCode = 200;
     res.end(JSON.stringify(elementsInFolderArray));
   }, function error(err) {
