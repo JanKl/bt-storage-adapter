@@ -22,31 +22,15 @@ exports.getElementsInFolder = function (strategyConfig, folderName) {
 };
 
 /**
- * Recursively delete all files and subfolders in a specific folder.
+ * Delete a given object. If the object is a folder, all files and subfolders
+ *     will be deleted recursively.
  * @param {Object} strategyConfig Specific configuration settings for this
  *                 provider
- * @param {String} folderName Name of the folder
+ * @param {String} pathToAndObjectName Path to the file or folder
  * @returns {Promise} On success: resolve()
  *                    On error: reject(new Error())
  */
-exports.deleteElementsAndFolder = function (strategyConfig, folderName) {
-  return new Promise(function (resolve, reject) {
-    // Implementation goes here
-    
-    reject(new Error('Dummy method stub'));
-  });
-};
-
-/**
- * Delete a single object from a specific folder.
- * @param {Object} strategyConfig Specific configuration settings for this
- *                 provider
- * @param {String} folderName Name of the folder
- * @param {String} fileName Name of the file
- * @returns {Promise} On success: resolve()
- *                    On error: reject(new Error())
- */
-exports.deleteFileFromFolder = function (strategyConfig, folderName, fileName) {
+exports.deleteFileOrFolder = function (strategyConfig, pathToAndObjectName) {
   return new Promise(function (resolve, reject) {
     // Implementation goes here
 
