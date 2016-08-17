@@ -4,6 +4,8 @@ var stream = require('stream');
 
 /**
  * Allows for initialization of the selected storage strategy
+ * @param {Object} strategyConfig Specific configuration settings for this
+ *                 provider
  * @returns {undefined} No return value
  */
 exports.initialize = function (strategyConfig) {
