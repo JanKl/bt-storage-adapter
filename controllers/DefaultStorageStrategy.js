@@ -8,11 +8,17 @@ var stream = require('stream');
  * @param {Object} strategyConfig Specific configuration settings for this
  *                 provider
  * @param {String} folderName Name of the folder
- * @returns {Array} An array containing objects of the following scheme:
- *                  {fileName: string, isFolder: boolean}
+ * @returns {Promise} On success: resolve(new Array())
+ *                     An array containing objects of the following scheme:
+ *                     {fileName: string, isFolder: boolean}
+ *                    On error: reject(new Error())
  */
 exports.getElementsInFolder = function (strategyConfig, folderName) {
-  return [];
+  return new Promise(function (resolve, reject) {
+    // Implementation goes here
+    
+    reject(new Error('Dummy method stub'));
+  });
 };
 
 /**
@@ -20,10 +26,15 @@ exports.getElementsInFolder = function (strategyConfig, folderName) {
  * @param {Object} strategyConfig Specific configuration settings for this
  *                 provider
  * @param {String} folderName Name of the folder
- * @returns {Boolean} True if deletion successful, false otherwise
+ * @returns {Promise} On success: resolve()
+ *                    On error: reject(new Error())
  */
 exports.deleteElementsAndFolder = function (strategyConfig, folderName) {
-  return false;
+  return new Promise(function (resolve, reject) {
+    // Implementation goes here
+    
+    reject(new Error('Dummy method stub'));
+  });
 };
 
 /**
@@ -32,10 +43,15 @@ exports.deleteElementsAndFolder = function (strategyConfig, folderName) {
  *                 provider
  * @param {String} folderName Name of the folder
  * @param {String} fileName Name of the file
- * @returns {Boolean} True if deletion successful, false otherwise
+ * @returns {Promise} On success: resolve()
+ *                    On error: reject(new Error())
  */
 exports.deleteFileFromFolder = function (strategyConfig, folderName, fileName) {
-  return false;
+  return new Promise(function (resolve, reject) {
+    // Implementation goes here
+
+    reject(new Error('Dummy method stub'));
+  });
 };
 
 /**
@@ -44,11 +60,15 @@ exports.deleteFileFromFolder = function (strategyConfig, folderName, fileName) {
  *                 provider
  * @param {String} folderName Name of the folder
  * @param {String} fileName Name of the file
- * @returns {ReadStream} Data of the object, equals to null if not found
+ * @returns {Promise} On success: resolve(new stream.Readable({objectMode: true}))
+ *                    On error: reject(new Error())
  */
 exports.getFileFromFolder = function (strategyConfig, folderName, fileName) {
-  return new stream.Readable({objectMode: true});
-  ;
+  return new Promise(function (resolve, reject) {
+    // Implementation goes here
+
+    reject(new Error('Dummy method stub'));
+  });
 };
 
 /**
@@ -58,13 +78,13 @@ exports.getFileFromFolder = function (strategyConfig, folderName, fileName) {
  * @param {String} folderName Name of the folder
  * @param {String} fileName Name of the file
  * @param {ReadStream} fileData Data of the object
- * @returns {Promise}
+ * @returns {Promise} On success: resolve()
+ *                    On error: reject(new Error())
  */
 exports.putFileIntoFolder = function (strategyConfig, folderName, fileName, fileData) {
   return new Promise(function (resolve, reject) {
     // Implementation goes here
-    // On success: resolve(data)
-    // On error: reject(new Error)
+
     reject(new Error('Dummy method stub'));
   });
 };
