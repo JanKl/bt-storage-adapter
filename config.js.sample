@@ -8,6 +8,7 @@ config.encryption.pathIntermediateCert = '/path/to/intermediate.pem';
 // Choose one of
 // - Default (only implementation stubs)
 // - AWSS3 (storage in an AWS S3 bucket)
+// - AzureBlob (storage in Azure Blob storage)
 config.storageStrategyToUse = 'Default';
 
 config.storageStrategySettings = {};
@@ -17,5 +18,9 @@ config.storageStrategySettings.AWSS3.accessKeyId = 'accesskey';
 config.storageStrategySettings.AWSS3.secretAccessKey = 'secret';
 config.storageStrategySettings.AWSS3.region = 'region-identifier';
 config.storageStrategySettings.AWSS3.bucket = 'globally-unique-bucket-name';  // Will be created automatically if it doesn't exist.
+config.storageStrategySettings.AzureBlob = {};
+config.storageStrategySettings.AzureBlob.storageAccount = 'storageAccountName';
+config.storageStrategySettings.AzureBlob.storageAccessKey = 'storageAccessKey';
+config.storageStrategySettings.AzureBlob.container = 'globally-unique-container-name';  // Will be created automatically if it doesn't exist.
 
 module.exports = config;
