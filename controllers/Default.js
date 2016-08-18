@@ -7,14 +7,6 @@ var config = require('../config');
 // TODO: Implement document store here
 var tempDocumentStore = {};
 
-tempDocumentStore["56000846-518d-4925-b62a-119c55189223"] = {
-    baseFolderName: "56000846-518d-4925-b62a-119c55189223",
-    baseFolderSecret: "693fd7277434ca21d2081f847b0305880eafb3e220762568095c71a086fe5f17",
-    baseFolderRemarks: "",
-    baseFolderCreated: new Date(),
-    baseFolderLastAccess: new Date()
-  };  // XXX: For testing
-
 // choose implementation for selected storage strategy
 var SelectedStorageStrategy = require('./' + config.storageStrategyToUse + 'StorageStrategy');
 var selectedStorageStrategyConfig = config['storageStrategySettings'][config.storageStrategyToUse];
